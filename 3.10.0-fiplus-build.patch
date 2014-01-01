@@ -1,0 +1,21 @@
+--- origsrc/FreeImage/Makefile.fip	2007-08-25 16:57:54.000000000 -0500
++++ src/FreeImage/Makefile.fip	2013-12-31 17:55:54.171432500 -0600
+@@ -15,7 +15,7 @@ INSTALLDIR = /usr/lib
+ DOS2UNIX = dos2unix
+ 
+ COMPILERFLAGS = -O3 -fexceptions -fvisibility=hidden
+-LIBRARIES = -lstdc++
++LIBRARIES = -lstdc++ -L. -lfreeimage
+ 
+ MODULES = $(SRCS:.c=.o)
+ MODULES := $(MODULES:.cpp=.o)
+--- origsrc/FreeImage/genfipsrclist.sh	2007-08-11 03:09:28.000000000 -0500
++++ src/FreeImage/genfipsrclist.sh	2013-12-31 18:02:04.165605900 -0600
+@@ -1,6 +1,6 @@
+ #!/bin/sh
+ 
+-DIRLIST=". Source Source/Metadata Source/FreeImageToolkit Source/LibJPEG Source/LibMNG Source/LibPNG Source/LibTIFF Source/ZLib Source/LibOpenJPEG Source/OpenEXR Source/OpenEXR/Half Source/OpenEXR/Iex Source/OpenEXR/IlmImf Source/OpenEXR/IlmThread Source/OpenEXR/Imath Wrapper/FreeImagePlus"
++DIRLIST="Wrapper/FreeImagePlus"
+ 
+ 
+ echo "VER_MAJOR = 3" > fipMakefile.srcs
