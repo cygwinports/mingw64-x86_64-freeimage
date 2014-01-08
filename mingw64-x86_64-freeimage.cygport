@@ -16,6 +16,7 @@ SRC_DIR="FreeImage"
 PATCH_URI="
 	http://pkgs.fedoraproject.org/cgit/freeimage.git/plain/FreeImage-3.10.0-syslibs.patch
 	http://pkgs.fedoraproject.org/cgit/freeimage.git/plain/FreeImage-3.10.0-libpng15.patch
+	http://pkgs.fedoraproject.org/cgit/freeimage.git/plain/FreeImage-3.10.0-libtiff4.patch
 	3.10.0-fiplus-build.patch
 	3.10.0-mingw.patch
 	3.10.0-win64.patch
