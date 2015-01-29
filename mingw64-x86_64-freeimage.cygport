@@ -3,7 +3,7 @@ inherit cross
 
 NAME="mingw64-x86_64-freeimage"
 VERSION=3.10.0
-RELEASE=1
+RELEASE=2
 CATEGORY="Devel"
 SUMMARY="Multi-format graphics library for Win64 toolchain"
 DESCRIPTION="FreeImage is an Open Source library project for developers who
