@@ -2,8 +2,8 @@ CROSS_HOST="x86_64-w64-mingw32"
 inherit cross
 
 NAME="mingw64-x86_64-freeimage"
-VERSION=3.10.0
-RELEASE=2
+VERSION=3.15.4
+RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Multi-format graphics library for Win64 toolchain"
 DESCRIPTION="FreeImage is an Open Source library project for developers who
@@ -14,30 +14,29 @@ HOMEPAGE="http://freeimage.sourceforge.net/"
 SRC_URI="mirror://sourceforge/freeimage/FreeImage${VERSION//.}.zip"
 SRC_DIR="FreeImage"
 PATCH_URI="
-	http://pkgs.fedoraproject.org/cgit/freeimage.git/plain/FreeImage-3.10.0-syslibs.patch
-	http://pkgs.fedoraproject.org/cgit/freeimage.git/plain/FreeImage-3.10.0-libpng15.patch
-	http://pkgs.fedoraproject.org/cgit/freeimage.git/plain/FreeImage-3.10.0-libtiff4.patch
-	3.10.0-fiplus-build.patch
-	3.10.0-mingw.patch
-	3.10.0-win64.patch
+	http://pkgs.fedoraproject.org/cgit/mingw-freeimage.git/plain/FreeImage-3.15.4_unbundle.patch
+	http://pkgs.fedoraproject.org/cgit/mingw-freeimage.git/plain/FreeImage-3.15.4_mingw-makefiles.patch
 "
 
 DIFF_EXCLUDES="*Makefile.srcs"
 
-src_compile() {
-	check_pkg_config FREEIMAGE_DEPS "libopenjpeg OpenEXR libpng zlib"
+CYGPORT_USE_UNSTABLE_API=1
+src_unpack_hook() {
+	rm -fr Source/{OpenEXR,ZLib} Source/Lib{MNG,OpenJPEG,PNG,RawLite,TIFF,JPEG,TIFF4}
+	find -type f -exec dos2unix '{}' +
+}
 
+src_compile() {
 	lndirs
 	cd ${B}
 	bash -o igncr ./gensrclist.sh
 	bash -o igncr ./genfipsrclist.sh
-	cygmake OS=MinGW \
-		CC=${CC} CXX=${CXX} AR=${AR} \
-		COMPILERFLAGS="${CXXFLAGS} ${FREEIMAGE_DEPS_CFLAGS}" \
-		LIBRARIES="-lstdc++ -ljpeg -lmng -ltiff ${FREEIMAGE_DEPS_LIBS}"
+	cygmake -f Makefile.mingw OS=MinGW \
+		MINGW_TARGET=${CROSS_HOST} \
+		COMPILERFLAGS="${CXXFLAGS}"
 	cygmake -f Makefile.fip \
-		CC=${CC} CXX=${CXX} AR=${AR} \
-		COMPILERFLAGS="${CXXFLAGS} -IDist"
+		MINGW_TARGET=${CROSS_HOST} \
+		COMPILERFLAGS="${CXXFLAGS}"
 }
 
 src_install() {
